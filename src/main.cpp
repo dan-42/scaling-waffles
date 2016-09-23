@@ -30,26 +30,10 @@ typedef std::shared_ptr<value> value_ptr;
 
 struct block {
 
-  template<typename T>
-  value test_t(T,  const value& v, uint16_t idx) {
-
-    if(std::is_same<T, double>::value) {
-      return {0.0};
-    }
-    else {
-      return {23.0};
-    }
-
-  }
-
-
   virtual ~block() { }
   virtual void set_input(uint32_t position, value_ptr v)  = 0;
   virtual void set_output(uint32_t position, value_ptr v) = 0;
   virtual void execute() = 0;
-
-
-
 
 };
 
@@ -89,7 +73,6 @@ struct addition : block_crtp<addition> {
 
 
   void set_input_impl(uint32_t position, value_ptr v) {
-
     inputs.push_back(v);
   }
 
@@ -97,7 +80,6 @@ struct addition : block_crtp<addition> {
     assert(position == 0);
     output  = v;
   }
-
 
 
   value_ptr output;
@@ -183,12 +165,7 @@ struct plan {
 int main() {
 
 
-  core::addition b;
-  core::value v{42};
-  auto t = b.test_t(true, v, 42);
-  std::cout << t.v << std::endl;
-  t = b.test_t("hell_yeah", v, 23);
-  std::cout << t.v << std::endl;
+
   core::plan plan;
 
 
